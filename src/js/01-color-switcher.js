@@ -7,14 +7,15 @@ const refs={
 let intervalId = null;
 const DELAY=1000;
 
-refs.buttonStop.classList.add('disabled');
+
+refs.buttonStop.disabled=true;
 refs.buttonStart.addEventListener('click', onClickBtnStart);
 refs.buttonStop.addEventListener('click', onClickBtnStop);
 
 
 function onClickBtnStart(){
-    refs.buttonStart.classList.add('disabled');
-    refs.buttonStop.classList.remove('disabled');
+    refs.buttonStart.disabled=true;
+    refs.buttonStop.disabled=false;
     intervalId=setInterval(() => {
         refs.bodyEl.style.backgroundColor=getRandomHexColor();  
     }, DELAY);
@@ -22,8 +23,8 @@ function onClickBtnStart(){
 }
 
 function onClickBtnStop(){
-    refs.buttonStart.classList.remove('disabled');
-    refs.buttonStop.classList.add('disabled');
+    refs.buttonStart.disabled = false;
+    refs.buttonStop.disabled = true;
     clearInterval(intervalId);
 }
 

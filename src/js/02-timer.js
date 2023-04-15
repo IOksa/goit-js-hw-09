@@ -10,13 +10,14 @@ const refs={
     spanHours: document.querySelector('span[data-hours]'),
     spanMinutes: document.querySelector('span[data-minutes]'),
     spanSeconds: document.querySelector('span[data-seconds]'),
+    input: document.querySelector('#datetime-picker'),
 };
 
 let selectedTime=null;
 let intervalId = null;
 const DELAY=1000;
 
-refs.butStart.classList.add('disabled');
+refs.butStart.disabled=true;
 
 const options = {
     enableTime: true,
@@ -24,17 +25,16 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
 
-    onClose(selectedDates) {
-    
-      const currentTime = Date.now();
-      if((selectedDates[0]-currentTime)>0){
-         refs.butStart.classList.remove('disabled');
-         selectedTime=selectedDates[0];
-        }
-        else{
-            Notify.failure('Please choose a date in the future');
-           
-        }
+    onClose(selectedDates) {              
+        const currentTime = Date.now();
+        if((selectedDates[0]-currentTime)>0){
+            refs.butStart.disabled=false;
+            selectedTime=selectedDates[0];
+            }
+            else{
+                Notify.failure('Please choose a date in the future');
+            
+            }
 
     },
 };
@@ -44,7 +44,9 @@ flatpickr("#datetime-picker", options);
 refs.butStart.addEventListener('click', onClickBtnStart);
 
 function onClickBtnStart(){
-    refs.butStart.classList.add('disabled');
+    refs.butStart.disabled=true;
+    refs.input.disabled=true;
+  
 
     intervalId=setInterval(() => {   
         const currentTime = Date.now();
@@ -54,6 +56,9 @@ function onClickBtnStart(){
 
         if((convertData.days===0 && convertData.hours===0 && convertData.minutes===0 && convertData.seconds===0)){
             clearInterval(intervalId);
+            isTimer=false;
+            refs.input.disabled=false;
+         
            
         }
     }, DELAY);
