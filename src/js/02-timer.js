@@ -27,6 +27,7 @@ const options = {
 
     onClose(selectedDates) {              
         const currentTime = Date.now();
+
         if((selectedDates[0]-currentTime)>0){
             refs.butStart.disabled=false;
             selectedTime=selectedDates[0];
@@ -46,7 +47,7 @@ refs.butStart.addEventListener('click', onClickBtnStart);
 function onClickBtnStart(){
     refs.butStart.disabled=true;
     refs.input.disabled=true;
-  
+    
 
     intervalId=setInterval(() => {   
         const currentTime = Date.now();
@@ -56,9 +57,8 @@ function onClickBtnStart(){
 
         if((convertData.days===0 && convertData.hours===0 && convertData.minutes===0 && convertData.seconds===0)){
             clearInterval(intervalId);
-            isTimer=false;
             refs.input.disabled=false;
-         
+       
            
         }
     }, DELAY);
