@@ -5,15 +5,15 @@ const refs={
   inputDelay: document.querySelector('input[name="delay"]'),
   inputStep: document.querySelector('input[name="step"]'),
   inputAmount: document.querySelector('input[name="amount"]'),
-  button: document.querySelector('form > button'),
+  button: document.querySelector('form button'),
 };
 
-console.log(refs.button);
+
 refs.form.addEventListener('submit', onFormSubmit);
 
 function onFormSubmit(evt){
   evt.preventDefault();
-
+  refs.button.disabled=true;
   const counter=refs.inputAmount.value;
 
     for(let pos=1; pos<=counter;pos+=1){
@@ -27,6 +27,16 @@ function onFormSubmit(evt){
         Notify.failure(`Rejected promise ${position} in ${delay} ms`);
       });
     }
+
+    const delayTimer=Number(refs.inputDelay.value)+Number(counter*refs.inputStep.value)+counter*300;
+    console.log('delayTimer', delayTimer);
+    setTimeout(()=>{
+      refs.button.disabled=false;
+      refs.inputDelay.value="";
+      refs.inputStep.value="";
+      refs.inputAmount.value="";
+    }, delayTimer);
+ 
 }
 
 function createPromise(position, delay) {
